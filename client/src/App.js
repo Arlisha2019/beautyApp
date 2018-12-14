@@ -1,44 +1,36 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
-import { Products } from './components/Products'
-const axios = require('axios')
+import Products from './components/Products'
+import { categories } from './productCategories'
 
 class App extends Component {
   constructor(props) {
     super(props)
 
     this.state = {
-      products: []
+      products: [],
+      selection: "mensFragrances"
     }
-    this.fetchProducts()
+
   }
 
-  fetchProducts() {
-
-
-    const makeUpCat = "cat140006"
-    const fragrenceCat = "cat160006"
-    const eye = "cat130054"
-    const eyeShadow = "cat60045"
-
-    axios.get('/api/products/' + fragrenceCat).then(({ data })=>{
-
-      const products = data.products
-      if(products){
-        this.setState({products: products})
-      }
-
-      console.log(this.state)
-    })
-    // check out other categories here: https://www.sephora.com/api/catalog/categories
+  selectCategory = (e) => {
+    var cat = e.target.getAttribute('product_cat');
+    this.setState({selection: cat})
   }
 
   render() {
     return (
-      <div className="App">
-        <h1> Welcome to Arlisha's Beauty App </h1>
-        <Products productsArray={this.state.products} />
+      <div>
+
+        <button product_cat="makeup" onClick={this.selectCategory} style={{margin: '1rem'}}>makeup</button>
+        <button product_cat="fragrences" onClick={this.selectCategory} style={{margin: '1rem'}}>fragrences</button>
+        <button product_cat="mensFragrances" onClick={this.selectCategory} style={{margin: '1rem'}}>mens fragrences</button>
+        { this.state.selection === "fragrences"? <Products style={{margin: '1rem'}} category={categories.fragrences} /> : null }
+        { this.state.selection === "makeup"? <Products style={{margin: '1rem'}} category={categories.makeup} /> : null }
+        { this.state.selection === "mensFragrances"? <Products style={{margin: '1rem'}} category={categories.mensFragrances} /> : null }
+
+
       </div>
     );
   }

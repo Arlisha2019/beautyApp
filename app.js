@@ -46,8 +46,7 @@ app.get('/api/products/:category', function (req, res, next) {
 
   axios.get(`https://www.sephora.com/api/catalog/categories/${req.params.category}/products?currentPage=1&pageSize=300&content=true&includeRegionsMap=true`).then(({data}) => {
     if(data && data.products) {
-      console.log( data.products )
-      console.log( 'number of products', data.products.length)
+
       res.json({ products: data.products })
     }
   })
