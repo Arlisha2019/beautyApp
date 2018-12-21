@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 const axios = require('axios')
 
-class Products extends Component {
+export class Products extends Component {
   constructor(props) {
     super(props)
 
@@ -16,12 +16,12 @@ class Products extends Component {
 
   fetchProducts(category) {
 
-
     if(category){
 
       axios.get('/api/products/' + category).then(({ data })=>{
 
         const products = data.products
+        console.log(data.products);
         if(products){
           this.renderProducts(products)
 
@@ -42,7 +42,9 @@ class Products extends Component {
     const renderedProducts =
         productsArray.map(
             function (product){
+
               return (
+                <div>
               <div style={{backgroundColor: 'lightgray', borderRadius: '.2rem', margin: '1rem', padding: '.5rem', width: '200px', height: 'auto'}}>
                 <img src={`https://www.sephora.com${product.heroImage}`} />
                 <h4>{product.brandName}</h4>
@@ -50,19 +52,24 @@ class Products extends Component {
                 <h5>{product.currentSku.listPrice}</h5>
                 <h5>{product.rating}</h5>
                 <button>Add To Cart</button>
-              </div>)
+              </div>
+            </div>)
             })
 
 
-      this.setState({renderedProducts: renderedProducts, loading: false })
-
-  }
+      this.setState({
+        renderedProducts: renderedProducts,
+        loading: false
+      })
+    }
 
   render() {
 
     return (
       <div>
-        {this.state.loading? <p>loading... </p> : null}
+
+      <h1> Welcome to my Fragrance Page </h1>
+        {this.state.loading? <p>loading...0 </p> : null}
         <div style={{width: '100vw', display: 'flex', flexWrap: 'wrap', justifyContent: 'center'}}>
           {this.state.renderedProducts}
         </div>
@@ -70,5 +77,3 @@ class Products extends Component {
     );
   }
 }
-
-export default Products;

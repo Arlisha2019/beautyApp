@@ -4,14 +4,27 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const path = require('path')
 const axios = require('axios')
+const SERVER_CONFIGS = require('./constants/server');
+const cors = require('cors');
+const CORS_WHITELIST = require('./constants/frontend');
+
+const configureServer = require('./server');
+const configureRoutes = require('./routes');
+
+
+
+
 // const mustacheExpress = require('mustache-express') // example for using server side views
 
 // I mentioned this bit of code already, just make sure that it's in the server once at the top of the file
+/*
 if (process.env.NODE_ENV == 'development') {
   require('dotenv').config()
-}
+} */
 
 const app = express()
+configureServer(app);
+configureRoutes(app);
 
 // this is so that express can parse the incoming `req.body` into json, somewhere at the top of the server file:
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -24,6 +37,9 @@ app.use(bodyParser.json())
 // app.set('view engine', 'mustache')
 
 // set usefull headers:
+
+
+
 app.all('*', function (req, res, next) {
   res.setHeader('Access-Control-Allow-Origin', '*')
   res.setHeader('Access-Control-Allow-Credentials', 'true')
@@ -43,7 +59,6 @@ app.all('*', function (req, res, next) {
 // ROUTES GO HERE
 app.get('/api/products/:category', function (req, res, next) {
 
-
   axios.get(`https://www.sephora.com/api/catalog/categories/${req.params.category}/products?currentPage=1&pageSize=300&content=true&includeRegionsMap=true`).then(({data}) => {
     if(data && data.products) {
 
@@ -52,21 +67,9 @@ app.get('/api/products/:category', function (req, res, next) {
   })
 })
 
-// below all of the routes:
-if (process.env.NODE_ENV === 'production') {
-  // if the client is a create-react-app, go to the .gitignore in the client folder, and take out
-  // the word 'build' so that it isn't hidden from git and heroku
-
-  // serves up the static files
-  app.use(express.static('client/build'))
-  // if the app is a single page app, like a react app that uses react router for example
-  app.get('*', (req, res) =>
-    res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'))
-  )
-}
 
 // at the bottom of the server file, set the port like this, so that heroku can set the port when the server is being hosted there
-const PORT = process.env.PORT || 5000
+const PORT = 3001
 app.listen(PORT, function () {
-  console.log('\n\n===== listening for requests on port ' + PORT + ' =====\n\n')
+  console.log('\n\n===== Server Started on port ' + PORT + ' =====\n\n')
 })

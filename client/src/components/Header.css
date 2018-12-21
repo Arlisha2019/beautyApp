@@ -1,0 +1,20 @@
+.menuBar {
+  display: flex;
+  margin-left: 15px;
+  background-color: lightgray;
+  color: white;
+
+}
+
+
+
+
+.searchBar {
+  width: 250px;
+  height: 25px;
+}
+
+span {
+
+  margin-right: auto;
+}

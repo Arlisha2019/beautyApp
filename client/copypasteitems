@@ -1,0 +1,7 @@
+<button product_cat="eyeshadow" onClick={this.selectCategory} style={{margin: '1rem'}}>Eye Shadow</button>
+<button product_cat="fragrences" onClick={this.selectCategory} style={{margin: '1rem'}}>Women Fragrances</button>
+<button product_cat="mensFragrances" onClick={this.selectCategory} style={{margin: '1rem'}}>Mens Fragrances</button>
+{ this.state.selection === "fragrences"? <Products style={{margin: '1rem'}} category={categories.fragrences} /> : null }
+{ this.state.selection === "eyeshadow"? <Products style={{margin: '1rem'}} category={categories.eyeshadow} /> : null }
+{ this.state.selection === "mensFragrances"? <Products style={{margin: '1rem'}} category={categories.mensFragrances} /> : null }
+<Products />

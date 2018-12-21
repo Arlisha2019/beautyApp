@@ -1,0 +1,20 @@
+#womenContainer {
+  display: inline-flex;
+  word-wrap: break-word;
+  justify-content: center;
+}
+
+.womenList {
+  justify-content: center;
+  word-wrap: break-word;
+  background-color: pink;
+  width: 200px;
+  height: 400px;
+  margin: 10px;
+}
+
+body {
+  width: 100%;
+  background-color: darkgray;
+  color: white;
+}
